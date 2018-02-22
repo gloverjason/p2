@@ -1,3 +1,6 @@
+/* Jason Glover; Project 2; Spring 2018 */
+
+/* Main div styles */
 div#formbox {
     border: solid;
     width: 70%;
@@ -8,17 +11,19 @@ div#formbox {
     overflow: auto;
 }
 
+/* Body styles */
 body {
     background-color: whitesmoke;
     font-size: 1.3em;
-
 }
 
+/* Header styles */
 h1 {
     text-align: center;
     font-family: "Bookman Old Style", sans-serif;
 }
 
+/* Form input styles */
 input {
     font-size: 1.08em;
 }
@@ -30,3 +35,26 @@ select {
 span#checkboxYes {
     font-style: italic;
 }
+
+/* Success message styles */
+h2#success {
+    font-size: 1.2em;
+    background-color: lightgreen;
+    border: solid;
+    width: 70%;
+    margin-left: 20px;
+    padding-left: 15px;
+}
+
+/* Error message styles */
+li.errors {
+    font-size: 1.2em;
+    background-color: lightcoral;
+    border: solid;
+    width: 70%;
+    margin-left: 0px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    list-style: none;
+    font-weight: bold;
+

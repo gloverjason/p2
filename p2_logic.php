@@ -1,76 +1,63 @@
-
 <?php
+/* Jason Glover; Project 2; Spring 2018 */
 
-// on submit do below
+require('Form.php');
 
-// variables from form for
-    // bill split
-    // total cost
+use DWA\Form;
 
-// if/else for each  tip amount
-    // assign to variable
+// Create new object from class
+$form = new Form($_GET);
 
-// calculate (total cost / split ways) * (1 + tip amount)
+// Get data from form for use with class (Form class, replaces 4 commented lines several lines below);
+$splitWays = $form->get('splitWays', '');
+$totalCost = $form->get('totalCost', '');
+$service = $form->get('service', '');
+$roundUp = $form->has('roundUp');
 
-// if else for rounding
-/*if (isset($_GET['totalCost'])) {
-    $totalCost = $_GET['totalCost'];
-} /*else {
-    $totalCost = 0;
-}*/
+// This if/else alternate syntax allows index.php to access variables on page load
+// Commented out because Form class used instead
+//$splitWays = isset($_GET['splitWays']) ? $_GET['splitWays'] : '';
+//$totalCost = isset($_GET['totalCost']) ? $_GET['totalCost'] : '';
+//$service = isset($_GET['service']) ? $_GET['service'] : '';
+//$roundUp = isset($_GET['roundUp']) ? true: false;
 
+// If form submission occurs, validate using form class; errors returned as an array;
+if ($form->isSubmitted()) {
+    $errors = $form->validate(
+        [
+            'splitWays' => 'required|numeric',
+            'totalCost' => 'required|numeric',
+            'service' => 'required',
+        ]
+    );
+}
 
-/*if (isset($_GET['splitWays'])) {
-    $splitWays = $_GET['splitWays'];
-} else {
-    $splitWays = '';
-} */
-// This method allows index to access variables on page load
-$splitWays = isset($_GET['splitWays']) ? $_GET['splitWays'] : '';
-$totalCost = isset($_GET['totalCost']) ? $_GET['totalCost'] : '';
-$service = isset($_GET['service']) ? $_GET['service'] : '';
-
-// true/false since checkbox
-$roundUp = isset($_GET['roundUp']) ? true: false;
-
-// If the form does not have empty values
-if (!empty($_GET['splitWays']) && !empty($_GET['totalCost'])) {
-    // Do the following
-    $totalCost = $_GET['totalCost'];
-    $splitWays = $_GET['splitWays'];
-    $service = $_GET['service'];
-
-
-    if ($service) {
-        if ($service == 'choose') {
-            $costPerPerson = 'Make sure to fill out all options';
-        } else if ($service == 'horrible') {
-            $tipPercent = 0.00;
-        } else if ($service == 'bad') {
-            $tipPercent = 0.05;
-        } else if ($service == 'fair') {
-            $tipPercent = 0.10;
-        } else if ($service == 'average') {
-            $tipPercent = 0.15;
-        } else if ($service == 'good') {
-            $tipPercent = 0.20;
-        } else if ($service == 'excellent') {
-            $tipPercent = 0.25;
-        }
+// If the form is submitted and does not have errors
+if ($form->isSubmitted() && !$form->hasErrors) {
+    if ($service == 'horrible') {
+        $tipPercent = 0.00;
+    } else if ($service == 'bad') {
+        $tipPercent = 0.05;
+    } else if ($service == 'fair') {
+        $tipPercent = 0.10;
+    } else if ($service == 'average') {
+        $tipPercent = 0.15;
+    } else if ($service == 'good') {
+        $tipPercent = 0.20;
+    } else if ($service == 'excellent') {
+        $tipPercent = 0.25;
     }
 
     if (isset($_GET['roundUp'])) {
         $costPerPerson = ceil($totalCost / $splitWays * (1 + $tipPercent));
     } else {
-        $costPerPerson = $totalCost / $splitWays * (1 + $tipPercent);
+        $cPerPerson = $totalCost / $splitWays * (1 + $tipPercent);
+
+        $costPerPerson = round($cPerPerson, 2);
     }
 
-} else {
-    $costPerPerson = 'Make sure to fill out all options';
+    $displayCostPerPerson = $costPerPerson;
 }
-
-
-$displayCostPerPerson = $costPerPerson;
 
 
 
